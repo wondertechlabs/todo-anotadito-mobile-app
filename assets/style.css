@@ -47,11 +47,10 @@ a:hover {
 }
 
 .button {
-  display: flex;
+  display: inline-flex;
   background: linear-gradient(65deg, #DA552F, #ea8e39);
   font-family: "Heebo", sans-serif;
   color: #fff;
-  display: inline-flex;
   font-size: var(--font-xxs);
   letter-spacing: 0px;
   font-weight: 700;
