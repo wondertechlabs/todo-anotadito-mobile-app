@@ -25,10 +25,30 @@
 
 	<link rel="stylesheet" href="assets/tobi.css" />
 	<link rel="stylesheet" href="assets/style.css" />
+	
+	<!-- Smart App Banner para iOS -->
+	<meta name="apple-itunes-app" content="app-id=6744540332">
 
 </head>
 
 <body>
+	<!-- Smart Banner para dispositivos móviles iOS -->
+	<div id="smart-banner" class="smart-banner" style="display: none;">
+		<div class="smart-banner__container">
+			<div class="smart-banner__icon">
+				<img src="content/image/b33nc64l7xgxhk7qynte.png" alt="Todo Anotadito">
+			</div>
+			<div class="smart-banner__info">
+				<div class="smart-banner__title">Todo Anotadito</div>
+				<div class="smart-banner__subtitle">En la App Store</div>
+			</div>
+			<div class="smart-banner__actions">
+				<button class="smart-banner__close" id="smart-banner-close" aria-label="Cerrar">✕</button>
+				<a href="https://apps.apple.com/us/app/todo-anotadito/id6744540332" class="smart-banner__button" rel="noopener noreferrer">Abrir</a>
+			</div>
+		</div>
+	</div>
+	
 	<main>
 		<header class="app__header container">
 			<div class="app__logo-wrapper"> 
@@ -122,8 +142,44 @@
 
 	<script type="text/javascript" src="assets/tobi.min.js"></script>
 	<script>
+		// Detectar dispositivo móvil iOS y mostrar smart banner
+		function isIOSDevice() {
+			return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+		}
+		
+		function showSmartBanner() {
+			// Verificar si es iOS y si el usuario no ha cerrado el banner antes
+			if (isIOSDevice() && !localStorage.getItem('smartBannerClosed')) {
+				var banner = document.getElementById('smart-banner');
+				if (banner) {
+					banner.style.display = 'block';
+					// Ajustar el padding del body para que el contenido no quede oculto
+					document.body.style.paddingTop = '76px';
+				}
+			}
+		}
+		
+		function hideSmartBanner() {
+			var banner = document.getElementById('smart-banner');
+			if (banner) {
+				banner.style.display = 'none';
+				document.body.style.paddingTop = '0';
+				// Guardar preferencia del usuario
+				localStorage.setItem('smartBannerClosed', 'true');
+			}
+		}
+		
 		window.onload = function () {
 			var tobi = new Tobi();
+			
+			// Mostrar smart banner después de un pequeño delay
+			setTimeout(showSmartBanner, 500);
+			
+			// Cerrar banner cuando se hace clic en el botón de cerrar
+			var closeButton = document.getElementById('smart-banner-close');
+			if (closeButton) {
+				closeButton.addEventListener('click', hideSmartBanner);
+			}
 		};
 	</script>
 
